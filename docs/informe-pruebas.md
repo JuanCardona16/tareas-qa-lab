@@ -2,7 +2,7 @@
 
 **Software evaluado:** `tareas-qa-lab` v0.1.0
 **Fecha:** 11 de septiembre de 2026
-**Autor:** [Nombre del estudiante]
+**Autor(es):** Juan David Cardona, Sergio Luis Doria, Christian Traeger Gamero 
 
 ---
 
