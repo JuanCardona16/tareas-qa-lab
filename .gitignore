@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.env
+.env.local
+coverage/
+.turbo/
+*.tsbuildinfo
+vite.config.js
+vitest.config.js
+vite.config.d.ts
+vitest.config.d.ts

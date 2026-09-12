@@ -1,0 +1,143 @@
+{
+  "info": {
+    "name": "tareas-qa-lab - Task API Mock",
+    "description": "Colección Postman para fachada MSW tareas-qa-lab. VITE_API_URL=http://localhost:3000. Incluye casos 400/404. Error uniforme {error, details}.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "tareas-qa-lab-fase-2",
+    "version": "1.0.0"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "request": { "method": "GET", "url": "{{baseUrl}}/api/health", "description": "200 ok" }
+    },
+    {
+      "name": "Tasks - List",
+      "item": [
+        {
+          "name": "List todas",
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/tasks" }
+        },
+        {
+          "name": "List filtro estado+q AND case-insensitive",
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/tasks?estado=en_progreso&q=leche" }
+        },
+        {
+          "name": "List q case-insensitive",
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/tasks?q=LECHE" }
+        }
+      ]
+    },
+    {
+      "name": "Tasks - GetById",
+      "item": [
+        {
+          "name": "Get 200",
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/tasks/:id", "urlObject": { "path": ["api","tasks",":id"], "variable": [{ "key": "id", "value": "seed-1" }] } }
+        },
+        {
+          "name": "Get 404",
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/tasks/no-existe-404" }
+        }
+      ]
+    },
+    {
+      "name": "Tasks - Create",
+      "item": [
+        {
+          "name": "POST 201 valido",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"titulo\": \"Comprar leche\",\n  \"descripcion\": \"ir al súper\"\n}" },
+            "url": "{{baseUrl}}/api/tasks"
+          }
+        },
+        {
+          "name": "POST 400 titulo vacío",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"titulo\": \"   \"\n}" },
+            "url": "{{baseUrl}}/api/tasks"
+          }
+        },
+        {
+          "name": "POST 400 titulo 101 chars",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"titulo\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"\n}" },
+            "url": "{{baseUrl}}/api/tasks"
+          }
+        },
+        {
+          "name": "POST 400 descripcion 501",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"titulo\": \"ok\",\n  \"descripcion\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"\n}" },
+            "url": "{{baseUrl}}/api/tasks"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tasks - Update",
+      "item": [
+        {
+          "name": "PUT 200 titulo+estado válido",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"titulo\": \"Editada\",\n  \"estado\": \"en_progreso\"\n}" },
+            "url": "{{baseUrl}}/api/tasks/:id"
+          }
+        },
+        {
+          "name": "PUT 400 validación",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"titulo\": \"   \"\n}" },
+            "url": "{{baseUrl}}/api/tasks/:id"
+          }
+        },
+        {
+          "name": "PUT 400 transición inválida",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"estado\": \"completada\"\n}" },
+            "url": "{{baseUrl}}/api/tasks/:id"
+          }
+        },
+        {
+          "name": "PUT 404 no existe",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"titulo\": \"x\"\n}" },
+            "url": "{{baseUrl}}/api/tasks/no-existe-404"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tasks - Delete",
+      "item": [
+        {
+          "name": "DELETE 204",
+          "request": { "method": "DELETE", "url": "{{baseUrl}}/api/tasks/:id" }
+        },
+        {
+          "name": "DELETE 404",
+          "request": { "method": "DELETE", "url": "{{baseUrl}}/api/tasks/no-existe-404" }
+        }
+      ]
+    }
+  ]
+}
